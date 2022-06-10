@@ -31,6 +31,21 @@
                     value="{{ old('image', $post->image) }}">
 
                 <button type="submit" class="btn btn-success">modifica</button>
+
+                @foreach ($tags as $tag)
+                    <div class="form-check">
+                        <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        value="{{ $tag->id }}"
+                        id="tag-{{ $tag->id }}"
+                        name="tags[]" 
+                        @if (in_array($tag->id, old('tags', $post_tags_id))) checked @endif>
+                        <label class="form-check-label" for="tag-{{ $tag->id }}">
+                            {{ $tag->label }}
+                        </label>
+                    </div>
+                @endforeach
             </div>
         </form>
     </div>

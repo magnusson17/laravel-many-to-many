@@ -17,6 +17,7 @@
                     @endforeach
                 </select>
 
+                <h3>Tags:</h3>
                 @foreach ($tags as $tag)
                     <div class="form-check">
                         <input 
@@ -28,7 +29,7 @@
                         @if(in_array($tag->id, old('tags', []) ) ) checked @endif
                         >
                         <label class="form-check-label" for="tag-{{$tag->id}}">
-                            {{$tag->label}}"
+                            {{$tag->label}}
                         </label>
                     </div>
                 @endforeach

@@ -111,7 +111,7 @@ deleteForm.forEach(function (form) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\gabri\OneDrive\Desktop\esBoolean\laravel-one-to-many\resources\js\delete-form.js */"./resources/js/delete-form.js");
+module.exports = __webpack_require__(/*! C:\Users\gabri\OneDrive\Desktop\esBoolean\laravel-many-to-many\resources\js\delete-form.js */"./resources/js/delete-form.js");
 
 
 /***/ })
