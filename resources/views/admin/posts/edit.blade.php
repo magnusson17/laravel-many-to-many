@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
 
-        <form action=" {{ route('admin.posts.update', $post->id) }} " method="POST">
+        <form action=" {{ route('admin.posts.update', $post->id) }} " method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -26,21 +26,19 @@
                     {{ old('content', $post->content) }}
                 </textarea>
 
-                <label for="title">image</label>
+                {{-- <label for="title">image</label>
                 <input type="url" class="form-control" id="image" placeholder="url" name="image"
-                    value="{{ old('image', $post->image) }}">
+                    value="{{ old('image', $post->image) }}"> --}}
+
+                <label for="title">image</label>
+                <input type="file" class="form-control-file" id="image" placeholder="url" name="image">
 
                 <button type="submit" class="btn btn-success">modifica</button>
 
                 @foreach ($tags as $tag)
                     <div class="form-check">
-                        <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        value="{{ $tag->id }}"
-                        id="tag-{{ $tag->id }}"
-                        name="tags[]" 
-                        @if (in_array($tag->id, old('tags', $post_tags_id))) checked @endif>
+                        <input class="form-check-input" type="checkbox" value="{{ $tag->id }}"
+                            id="tag-{{ $tag->id }}" name="tags[]" @if (in_array($tag->id, old('tags', $post_tags_id))) checked @endif>
                         <label class="form-check-label" for="tag-{{ $tag->id }}">
                             {{ $tag->label }}
                         </label>

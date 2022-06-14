@@ -8,7 +8,8 @@
         @else
             -
         @endif
-        <img src="{{ $post->image }}" alt="{{ $post->title }}">
+        {{-- <img src="{{ $post->image }}" alt="{{ $post->title }}"> --}}
+        <img src="{{ asset("storage/$post->image") }}" alt="{{ $post->title }}">
         <p>{{ $post->content }}</p>
 
         <h3>tags:</h3>

@@ -8,6 +8,11 @@ use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage; 
+
+use Illuminate\Support\Facades\Auth;  
+use Illuminate\Support\Facades\Mail;  
+use App\Mail\CreatePostMail;
 
 class PostController extends Controller
 {
@@ -43,13 +48,30 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        // salvo info utente loggato che sta generando il post
+        $user = Auth::user();
+
+        //dd($data)
+
         $post = new Post();
+
+        // esiste dentro $data una key image?
+        if(array_key_exists('image', $data)){
+            // post_images: cartella che si genererà dentro public
+            $image_url = Storage::put('post_images', $data['image']);
+            // gli dico: sostituisci tutta la parte di array $data['image'] con il dato $image_url
+            $data['image'] = $image_url;
+        }
 
         $post->fill($data);
         $post->slug = Str::slug($post->title, '-');
         $post->save();
 
         if( array_key_exists('tags', $data) ) $post->tags()->attach($data['tags']);
+
+        //invio mail
+        $mail = new CreatePostMail($post);
+        Mail::to($user->mail)->send($mail);
 
         return redirect()->route('admin.posts.index');
     }
@@ -94,6 +116,15 @@ class PostController extends Controller
         $data = $request->all();
 
         $post['slug'] = Str::slug($request->title, '-');
+
+        if(array_key_exists('image', $data)){
+
+            if($post->image) Storage::delete($post->image);
+
+            $image_url = Storage::put('post_images', $data['image']);
+            $data['image'] = $image_url;
+        }
+
         $post->update($data);
 
         if( !array_key_exists('tags', $data) ) $post->tags()->detach(); else $post->tags()->sync($data['tags']);
